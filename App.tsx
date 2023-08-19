@@ -6,7 +6,7 @@ export default function App() {
 
     return (
         <View style={styles.container}>
-            <TextInput value={value} onChangeText={setValue} style={styles.input}/>
+            <TextInput value={value} onChangeText={setValue} style={[globalStyles.border, styles.input]}/>
         </View>
     );
 }
@@ -24,4 +24,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         fontSize: 18,
     },
+});
+
+const globalStyles = StyleSheet.create({
+    border: {
+        borderStyle: 'solid',
+        borderColor: 'red',
+        borderWidth: 1,
+    }
 });
