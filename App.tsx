@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput, View, Text, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {StyleSheet, TextInput, View, Text, TouchableWithoutFeedback, Keyboard, Button} from 'react-native';
 import React, {ReactNode, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 
@@ -13,13 +13,20 @@ export default function App() {
         {id: 5, title: 'React Native', isDone: false},
     ]);
 
+    const addTask = () => {
+
+    }
+
     return (
         <View style={styles.container}>
             <HideKeyboard>
-                <View style={[globalStyles.border, {width: '80%'}]}>
+                <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
                     <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
                 </View>
             </HideKeyboard>
+            <View style={[globalStyles.border, {backgroundColor: 'red'}]}>
+                <Button title={'Add task'} onPress={() => {}}/>
+            </View>
             <View style={{width: '60%'}}>
                 {tasks.map(task => (
                     <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
@@ -46,9 +53,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     input: {
-        marginBottom: 15,
         padding: 4,
-        width: '60%',
+        width: '80%',
         backgroundColor: '#fff',
         fontSize: 18,
     },
