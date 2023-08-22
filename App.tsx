@@ -1,11 +1,12 @@
 import {Button, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import React, {ReactNode, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
+import {Input} from './Input/Input';
+import {globalStyles} from './global-styles';
 
 export default function App() {
     const [value, setValue] = useState('');
-    const [show, setShow] = useState<number | null>(null)
-
+    const [show, setShow] = useState<number | null>(null);
     const [tasks, setTasks] = useState([
         {id: 1, title: 'HTML', isDone: true},
         {id: 2, title: 'CSS', isDone: true},
@@ -28,6 +29,11 @@ export default function App() {
         setTasks(tasks.map(task => task.id === taskId ? {...task, isDone: status} : task));
     };
 
+    const changeTitle = (taskId: number, title: string) => {
+        setTasks(tasks.map(task => task.id === taskId ? {...task, title} : task));
+        setShow(null);
+    }
+
     return (
         <View style={styles.container}>
             <HideKeyboard>
@@ -43,7 +49,7 @@ export default function App() {
                     <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
                         <Checkbox value={task.isDone} onValueChange={value => changeStatus(task.id, value)}></Checkbox>
                         {show === task.id
-                            ? <TextInput value={value} onChangeText={setValue} style={[styles.input, globalStyles.border]}/>
+                            ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
                             : <Text onPress={() => setShow(task.id)}>{task.title}</Text>}
                     </View>
                 ))}
@@ -82,10 +88,3 @@ const styles = StyleSheet.create({
     },
 });
 
-const globalStyles = StyleSheet.create({
-    border: {
-        borderStyle: 'solid',
-        borderColor: 'red',
-        borderWidth: 1,
-    },
-});
