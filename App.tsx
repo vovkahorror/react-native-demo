@@ -17,7 +17,7 @@ export default function App() {
         <View style={styles.container}>
             <HideKeyboard>
                 <View style={[globalStyles.border, {width: '80%'}]}>
-                    <TextInput value={value} onChangeText={setValue} style={styles.input}/>
+                    <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
                 </View>
             </HideKeyboard>
             <View style={{width: '60%'}}>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     input: {
         marginBottom: 15,
         padding: 4,
-        // width: '60%',
+        width: '60%',
         backgroundColor: '#fff',
         fontSize: 18,
     },
