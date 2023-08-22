@@ -1,9 +1,10 @@
-import {StyleSheet, TextInput, View, Text, TouchableWithoutFeedback, Keyboard, Button} from 'react-native';
+import {Button, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import React, {ReactNode, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 
 export default function App() {
     const [value, setValue] = useState('');
+    const [show, setShow] = useState<number | null>(null)
 
     const [tasks, setTasks] = useState([
         {id: 1, title: 'HTML', isDone: true},
@@ -14,8 +15,18 @@ export default function App() {
     ]);
 
     const addTask = () => {
+        const newTask = {
+            id: tasks.length + 1,
+            title: value,
+            isDone: false,
+        };
+        setTasks([newTask, ...tasks]);
+        setValue('');
+    };
 
-    }
+    const changeStatus = (taskId: number, status: boolean) => {
+        setTasks(tasks.map(task => task.id === taskId ? {...task, isDone: status} : task));
+    };
 
     return (
         <View style={styles.container}>
@@ -24,14 +35,16 @@ export default function App() {
                     <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
                 </View>
             </HideKeyboard>
-            <View style={[globalStyles.border, {backgroundColor: 'red'}]}>
-                <Button title={'Add task'} onPress={() => {}}/>
+            <View style={[globalStyles.border]}>
+                <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
             </View>
             <View style={{width: '60%'}}>
                 {tasks.map(task => (
                     <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
-                        <Checkbox value={task.isDone}></Checkbox>
-                        <Text>{task.title}</Text>
+                        <Checkbox value={task.isDone} onValueChange={value => changeStatus(task.id, value)}></Checkbox>
+                        {show === task.id
+                            ? <TextInput value={value} onChangeText={setValue} style={[styles.input, globalStyles.border]}/>
+                            : <Text onPress={() => setShow(task.id)}>{task.title}</Text>}
                     </View>
                 ))}
             </View>
@@ -65,6 +78,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         backgroundColor: '#fffffe',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
 });
 
