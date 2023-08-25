@@ -1,8 +1,10 @@
-import {Button, Keyboard, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
+import {Button, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
 import React, {ReactNode, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 import {Input} from './Input/Input';
 import {globalStyles} from './global-styles';
+
+const img = require('./assets/background.jpg');
 
 export default function App() {
     const [value, setValue] = useState('');
@@ -54,6 +56,11 @@ export default function App() {
                     </View>
                 ))}
             </View>
+            <View>
+                <Pressable onPress={() => {}}>
+                    <Text style={styles.pressable}>I'm pressable!</Text>
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -86,5 +93,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    pressable: {
+        color: '#fff'
+    }
 });
 
