@@ -1,10 +1,20 @@
-import {Button, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View} from 'react-native';
+import {
+    Button,
+    ImageBackground,
+    Keyboard,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import React, {ReactNode, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 import {Input} from './Input/Input';
 import {globalStyles} from './global-styles';
 
-const img = require('./assets/background.jpg');
+const image = require('./assets/background.jpg');
 
 export default function App() {
     const [value, setValue] = useState('');
@@ -34,33 +44,38 @@ export default function App() {
     const changeTitle = (taskId: number, title: string) => {
         setTasks(tasks.map(task => task.id === taskId ? {...task, title} : task));
         setShow(null);
-    }
+    };
 
     return (
         <View style={styles.container}>
-            <HideKeyboard>
-                <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
-                    <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
-                </View>
-            </HideKeyboard>
-            <View style={[globalStyles.border]}>
-                <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
-            </View>
-            <View style={{width: '60%'}}>
-                {tasks.map(task => (
-                    <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
-                        <Checkbox value={task.isDone} onValueChange={value => changeStatus(task.id, value)}></Checkbox>
-                        {show === task.id
-                            ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
-                            : <Text onPress={() => setShow(task.id)}>{task.title}</Text>}
+            <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+                <Text style={styles.text}>Inside</Text>
+                <HideKeyboard>
+                    <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
+                        <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
                     </View>
-                ))}
-            </View>
-            <View>
-                <Pressable onPress={() => {}}>
-                    <Text style={styles.pressable}>I'm pressable!</Text>
-                </Pressable>
-            </View>
+                </HideKeyboard>
+                <View style={[globalStyles.border]}>
+                    <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
+                </View>
+                <View style={{width: '60%'}}>
+                    {tasks.map(task => (
+                        <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
+                            <Checkbox value={task.isDone}
+                                      onValueChange={value => changeStatus(task.id, value)}></Checkbox>
+                            {show === task.id
+                                ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
+                                : <Text onPress={() => setShow(task.id)}>{task.title}</Text>}
+                        </View>
+                    ))}
+                </View>
+                <View>
+                    <Pressable onPress={() => {
+                    }}>
+                        <Text style={styles.text}>I'm pressable!</Text>
+                    </Pressable>
+                </View>
+            </ImageBackground>
         </View>
     );
 }
@@ -75,7 +90,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#0f0e17',
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center',
     },
     input: {
@@ -93,8 +108,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    pressable: {
-        color: '#fff'
-    }
+    image: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    text: {
+        color: '#fff',
+    },
 });
 
