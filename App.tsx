@@ -1,4 +1,5 @@
 import {
+    Alert,
     Button,
     ImageBackground,
     Keyboard,
@@ -49,7 +50,6 @@ export default function App() {
     return (
         <View style={styles.container}>
             <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-                <Text style={styles.text}>Inside</Text>
                 <HideKeyboard>
                     <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
                         <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
@@ -71,8 +71,10 @@ export default function App() {
                 </View>
                 <View>
                     <Pressable onPress={() => {
+                        Alert.alert('pressed!')
                     }}>
-                        <Text style={styles.text}>I'm pressable!</Text>
+                        {({pressed}) =>
+                            <Text style={{...styles.text, color: pressed ? 'red' : '#fff' }}>I'm pressable!</Text>}
                     </Pressable>
                 </View>
             </ImageBackground>
