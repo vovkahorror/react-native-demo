@@ -60,21 +60,16 @@ export default function App() {
                 </View>
                 <View style={{width: '60%'}}>
                     {tasks.map(task => (
-                        <View key={task.id} style={[globalStyles.border, styles.boxTask]}>
-                            <Checkbox value={task.isDone}
-                                      onValueChange={value => changeStatus(task.id, value)}></Checkbox>
-                            {show === task.id
-                                ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
-                                : <Text onPress={() => setShow(task.id)}>{task.title}</Text>}
-                        </View>
+                        <CheckboxItem key={task.id} task={task} show={show} setShow={setShow}
+                                      changeStatus={changeStatus} changeTitle={changeTitle}/>
                     ))}
                 </View>
                 <View>
                     <Pressable onPress={() => {
-                        Alert.alert('pressed!')
+                        Alert.alert('pressed!');
                     }}>
                         {({pressed}) =>
-                            <Text style={{...styles.text, color: pressed ? 'red' : '#fff' }}>I'm pressable!</Text>}
+                            <Text style={{...styles.text, color: pressed ? 'red' : '#fff'}}>I'm pressable!</Text>}
                     </Pressable>
                 </View>
             </ImageBackground>
@@ -87,6 +82,32 @@ const HideKeyboard = ({children}: { children: ReactNode }) => (
         {children}
     </TouchableWithoutFeedback>
 );
+
+const CheckboxItem = ({task, show, setShow, changeStatus, changeTitle}: CheckboxItemProps) => {
+    return (
+        <View style={[globalStyles.border, styles.boxTask]}>
+            <Checkbox value={task.isDone}
+                      onValueChange={value => changeStatus(task.id, value)}></Checkbox>
+            {show === task.id
+                ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
+                : <Text onLongPress={() => setShow(task.id)}>{task.title}</Text>}
+        </View>
+    );
+};
+
+type CheckboxItemProps = {
+    task: TaskType;
+    show: number | null;
+    setShow: (taskId: number) => void;
+    changeStatus: (taskId: number, value: boolean) => void;
+    changeTitle: (taskId: number, title: string) => void;
+}
+
+type TaskType = {
+    id: number;
+    title: string;
+    isDone: boolean;
+}
 
 const styles = StyleSheet.create({
     container: {
