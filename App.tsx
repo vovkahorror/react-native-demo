@@ -1,5 +1,5 @@
 import {
-    Alert,
+    Alert, Animated,
     Button,
     ImageBackground,
     Keyboard,
@@ -10,7 +10,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 import {Input} from './Input/Input';
 import {globalStyles} from './global-styles';
@@ -84,14 +84,16 @@ const HideKeyboard = ({children}: { children: ReactNode }) => (
 );
 
 const CheckboxItem = ({task, show, setShow, changeStatus, changeTitle}: CheckboxItemProps) => {
+    const animValue = useRef(new Animated.Value(0))
+
     return (
-        <View style={[globalStyles.border, styles.boxTask]}>
+        <Animated.View style={[globalStyles.border, styles.boxTask]}>
             <Checkbox value={task.isDone}
                       onValueChange={value => changeStatus(task.id, value)}></Checkbox>
             {show === task.id
                 ? <Input taskId={task.id} title={task.title} changeTitle={changeTitle}/>
                 : <Text onLongPress={() => setShow(task.id)}>{task.title}</Text>}
-        </View>
+        </Animated.View>
     );
 };
 
