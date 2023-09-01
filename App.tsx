@@ -10,7 +10,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from 'react-native';
-import React, {ReactNode, useRef, useState} from 'react';
+import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 import {Input} from './Input/Input';
 import {globalStyles} from './global-styles';
@@ -59,8 +59,8 @@ export default function App() {
                     <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
                 </View>
                 <View style={{width: '60%'}}>
-                    {tasks.map(task => (
-                        <CheckboxItem key={task.id} task={task} show={show} setShow={setShow}
+                    {tasks.map((task, index) => (
+                        <CheckboxItem key={task.id} task={task} index={index} show={show} setShow={setShow}
                                       changeStatus={changeStatus} changeTitle={changeTitle}/>
                     ))}
                 </View>
@@ -83,11 +83,20 @@ const HideKeyboard = ({children}: { children: ReactNode }) => (
     </TouchableWithoutFeedback>
 );
 
-const CheckboxItem = ({task, show, setShow, changeStatus, changeTitle}: CheckboxItemProps) => {
-    const animValue = useRef(new Animated.Value(0))
+const CheckboxItem = ({task, index, show, setShow, changeStatus, changeTitle}: CheckboxItemProps) => {
+    const animValue = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(animValue, {
+            toValue: 1,
+            duration: 500,
+            delay: 200 * index,
+            useNativeDriver: true,
+        }).start();
+    }, []);
 
     return (
-        <Animated.View style={[globalStyles.border, styles.boxTask]}>
+        <Animated.View style={[globalStyles.border, styles.boxTask, {opacity: animValue}]}>
             <Checkbox value={task.isDone}
                       onValueChange={value => changeStatus(task.id, value)}></Checkbox>
             {show === task.id
@@ -99,6 +108,7 @@ const CheckboxItem = ({task, show, setShow, changeStatus, changeTitle}: Checkbox
 
 type CheckboxItemProps = {
     task: TaskType;
+    index: number;
     show: number | null;
     setShow: (taskId: number) => void;
     changeStatus: (taskId: number, value: boolean) => void;
