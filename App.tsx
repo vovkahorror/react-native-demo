@@ -84,10 +84,11 @@ const HideKeyboard = ({children}: { children: ReactNode }) => (
 );
 
 const CheckboxItem = ({task, index, show, setShow, changeStatus, changeTitle}: CheckboxItemProps) => {
-    const animValue = useRef(new Animated.Value(0)).current;
+    const opacityAnimValue = useRef(new Animated.Value(0)).current;
+    const translateYAnimValue = useRef(new Animated.Value(200)).current;
 
     useEffect(() => {
-        Animated.timing(animValue, {
+        Animated.timing(opacityAnimValue, {
             toValue: 1,
             duration: 500,
             delay: 200 * index,
@@ -96,7 +97,10 @@ const CheckboxItem = ({task, index, show, setShow, changeStatus, changeTitle}: C
     }, []);
 
     return (
-        <Animated.View style={[globalStyles.border, styles.boxTask, {opacity: animValue}]}>
+        <Animated.View style={[globalStyles.border, styles.boxTask, {
+            opacity: opacityAnimValue,
+            transform: [{translateY: translateYAnimValue}],
+        }]}>
             <Checkbox value={task.isDone}
                       onValueChange={value => changeStatus(task.id, value)}></Checkbox>
             {show === task.id
