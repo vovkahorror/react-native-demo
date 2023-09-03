@@ -88,12 +88,19 @@ const CheckboxItem = ({task, index, show, setShow, changeStatus, changeTitle}: C
     const translateYAnimValue = useRef(new Animated.Value(200)).current;
 
     useEffect(() => {
-        Animated.timing(opacityAnimValue, {
-            toValue: 1,
-            duration: 500,
-            delay: 200 * index,
-            useNativeDriver: true,
-        }).start();
+        Animated.parallel([
+            Animated.timing(opacityAnimValue, {
+                toValue: 1,
+                duration: 500,
+                delay: 200 * index,
+                useNativeDriver: true,
+            }),
+            Animated.timing(translateYAnimValue, {
+                toValue: 0,
+                duration: 500,
+                delay: 200 * index,
+                useNativeDriver: true,
+            })]).start();
     }, []);
 
     return (
