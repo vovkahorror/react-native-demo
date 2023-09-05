@@ -16,13 +16,15 @@ import {Input} from './src/Input/Input';
 import {globalStyles} from './global-styles';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {WithSafeAreaView} from './src/ComponentsHelpers/WithSafeAreaView';
+import {HomeProps, NavigationType, ProfileProps, UserProps} from './src/Types/NavigationType';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<NavigationType>();
 
 const image = require('./assets/background.jpg');
 
-const HomeScreen = ({navigation}: any) => {
+const HomeScreen = ({navigation}: HomeProps) => {
     const [value, setValue] = useState('');
     const [show, setShow] = useState<number | null>(null);
     const [tasks, setTasks] = useState([
@@ -53,69 +55,75 @@ const HomeScreen = ({navigation}: any) => {
     };
 
     return (
-        <View style={styles.container}>
-            <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-                <HideKeyboard>
-                    <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
-                        <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+            <WithSafeAreaView>
+                <View style={styles.container}>
+                    <HideKeyboard>
+                        <View style={[{width: '80%', alignItems: 'center', paddingVertical: 30}]}>
+                            <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
+                        </View>
+                    </HideKeyboard>
+
+                    <View style={[globalStyles.border]}>
+                        <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
                     </View>
-                </HideKeyboard>
 
-                <View style={[globalStyles.border]}>
-                    <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
-                </View>
+                    <View style={{width: '60%'}}>
+                        {tasks.map((task, index) => (
+                            <CheckboxItem key={task.id} task={task} index={index} show={show} setShow={setShow}
+                                          changeStatus={changeStatus} changeTitle={changeTitle}/>
+                        ))}
+                    </View>
 
-                <View style={{width: '60%'}}>
-                    {tasks.map((task, index) => (
-                        <CheckboxItem key={task.id} task={task} index={index} show={show} setShow={setShow}
-                                      changeStatus={changeStatus} changeTitle={changeTitle}/>
-                    ))}
-                </View>
+                    <View>
+                        <Pressable onPress={() => {
+                            Alert.alert('pressed!');
+                        }}>
+                            {({pressed}) =>
+                                <Text style={{...styles.text, color: pressed ? 'red' : '#fff'}}>I'm pressable!</Text>}
+                        </Pressable>
+                    </View>
 
-                <View>
-                    <Pressable onPress={() => {
-                        Alert.alert('pressed!');
-                    }}>
-                        {({pressed}) =>
-                            <Text style={{...styles.text, color: pressed ? 'red' : '#fff'}}>I'm pressable!</Text>}
-                    </Pressable>
+                    <Button
+                        onPress={() => navigation.navigate('Profile')}
+                        title="Jump to Profile"
+                        color="#841584"
+                    />
                 </View>
+            </WithSafeAreaView>
+        </ImageBackground>
+    );
+};
+
+const ProfileScreen = ({navigation}: ProfileProps) => {
+    return (
+        <WithSafeAreaView>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <Text>Profile Screen</Text>
 
                 <Button
-                    onPress={() => navigation.navigate('Profile')}
-                    title="Jump to Profile"
+                    onPress={() => navigation.navigate('User')}
+                    title="Jump to User"
                     color="#841584"
                 />
-            </ImageBackground>
-        </View>
+            </View>
+        </WithSafeAreaView>
     );
 };
 
-const ProfileScreen = ({navigation}: any) => {
+const UserScreen = ({navigation}: UserProps) => {
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Profile Screen</Text>
+        <WithSafeAreaView>
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                <Text>Profile Screen</Text>
 
-            <Button
-                onPress={() => navigation.navigate('User')}
-                title="Jump to User"
-                color="#841584"
-            />
-        </View>
-    );
-};
-
-const UserScreen = ({navigation}: any) => {
-    return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Profile Screen</Text>
-
-            <Button
-                onPress={() => navigation.navigate('Home')}
-                title="Jump to Home"
-                color="#841584"
-            />
-        </View>
+                <Button
+                    onPress={() => navigation.navigate('Home')}
+                    title="Jump to Home"
+                    color="#841584"
+                />
+            </View>
+        </WithSafeAreaView>
     );
 };
 
@@ -200,8 +208,7 @@ type TaskType = {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0f0e17',
-        alignItems: 'stretch',
+        alignItems: 'center',
         justifyContent: 'center',
     },
     input: {
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
     image: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'stretch',
     },
     text: {
         fontSize: 26,
