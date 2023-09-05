@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TextInput, StyleSheet, View, Button} from 'react-native';
 
-import {globalStyles} from '../global-styles';
+import {globalStyles} from '../../global-styles';
 
 export const Input = (props: InputProps) => {
     const [value, setValue] = useState(props.title);

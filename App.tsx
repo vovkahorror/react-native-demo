@@ -12,12 +12,17 @@ import {
 } from 'react-native';
 import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
-import {Input} from './Input/Input';
+import {Input} from './src/Input/Input';
 import {globalStyles} from './global-styles';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+const Stack = createNativeStackNavigator();
 
 const image = require('./assets/background.jpg');
 
-export default function App() {
+const HomeScreen = ({navigation}: any) => {
     const [value, setValue] = useState('');
     const [show, setShow] = useState<number | null>(null);
     const [tasks, setTasks] = useState([
@@ -55,15 +60,18 @@ export default function App() {
                         <TextInput value={value} onChangeText={setValue} style={[styles.input]}/>
                     </View>
                 </HideKeyboard>
+
                 <View style={[globalStyles.border]}>
                     <Button title={'Add task'} color={'#ff8906'} onPress={addTask}/>
                 </View>
+
                 <View style={{width: '60%'}}>
                     {tasks.map((task, index) => (
                         <CheckboxItem key={task.id} task={task} index={index} show={show} setShow={setShow}
                                       changeStatus={changeStatus} changeTitle={changeTitle}/>
                     ))}
                 </View>
+
                 <View>
                     <Pressable onPress={() => {
                         Alert.alert('pressed!');
@@ -72,8 +80,58 @@ export default function App() {
                             <Text style={{...styles.text, color: pressed ? 'red' : '#fff'}}>I'm pressable!</Text>}
                     </Pressable>
                 </View>
+
+                <Button
+                    onPress={() => navigation.navigate('Profile')}
+                    title="Jump to Profile"
+                    color="#841584"
+                />
             </ImageBackground>
         </View>
+    );
+};
+
+const ProfileScreen = ({navigation}: any) => {
+    return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text>Profile Screen</Text>
+
+            <Button
+                onPress={() => navigation.navigate('User')}
+                title="Jump to User"
+                color="#841584"
+            />
+        </View>
+    );
+};
+
+const UserScreen = ({navigation}: any) => {
+    return (
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <Text>Profile Screen</Text>
+
+            <Button
+                onPress={() => navigation.navigate('Home')}
+                title="Jump to Home"
+                color="#841584"
+            />
+        </View>
+    );
+};
+
+export default function App() {
+
+
+    return (
+        <SafeAreaProvider>
+            <NavigationContainer>
+                <Stack.Navigator>
+                    <Stack.Screen name="Home" component={HomeScreen}/>
+                    <Stack.Screen name="Profile" component={ProfileScreen}/>
+                    <Stack.Screen name="User" component={UserScreen}/>
+                </Stack.Navigator>
+            </NavigationContainer>
+        </SafeAreaProvider>
     );
 }
 
