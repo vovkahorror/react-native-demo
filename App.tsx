@@ -19,8 +19,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {WithSafeAreaView} from './src/ComponentsHelpers/WithSafeAreaView';
 import {HomeProps, NavigationType, ProfileProps, UserProps} from './src/Types/NavigationType';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const Stack = createNativeStackNavigator<NavigationType>();
+// const Stack = createNativeStackNavigator<NavigationType>();
+const Stack = createBottomTabNavigator<NavigationType>();
+// const Stack = createDrawerNavigator<NavigationType>();
 
 const image = require('./assets/background.jpg');
 
@@ -85,7 +89,11 @@ const HomeScreen = ({navigation}: HomeProps) => {
                     </View>
 
                     <Button
-                        onPress={() => navigation.navigate('Profile')}
+                        onPress={() => navigation.navigate('Profile',
+                            {
+                                myName: 'Volodymyr',
+                                myAge: 31
+                            })}
                         title="Jump to Profile"
                         color="#841584"
                     />
@@ -95,11 +103,15 @@ const HomeScreen = ({navigation}: HomeProps) => {
     );
 };
 
-const ProfileScreen = ({navigation}: ProfileProps) => {
+const ProfileScreen = ({route, navigation}: ProfileProps) => {
+    const {myName, myAge} = {...route.params};
+
     return (
         <WithSafeAreaView>
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <Text>Profile Screen</Text>
+                <Text>My name: {myName}</Text>
+                <Text>My age: {myAge}</Text>
 
                 <Button
                     onPress={() => navigation.navigate('User')}
