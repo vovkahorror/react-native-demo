@@ -1,5 +1,6 @@
 import {
-    Alert, Animated,
+    Alert,
+    Animated,
     Button,
     ImageBackground,
     Keyboard,
@@ -14,17 +15,16 @@ import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
 import {Input} from './src/Input/Input';
 import {globalStyles} from './global-styles';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {WithSafeAreaView} from './src/ComponentsHelpers/WithSafeAreaView';
-import {HomeProps, NavigationType, ProfileProps, UserProps} from './src/Types/NavigationType';
+import {HomeProps, ProfileProps, RootStackParamList, UserProps} from './src/Types/NavigationTypes';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {RootAuth} from './src/Screens/AuthScreens/RootAuth';
 
-// const Stack = createNativeStackNavigator<NavigationType>();
-const Stack = createBottomTabNavigator<NavigationType>();
-// const Stack = createDrawerNavigator<NavigationType>();
+// const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createBottomTabNavigator<RootStackParamList>();
+// const Stack = createDrawerNavigator<RootStackParamList>();
 
 const image = require('./assets/background.jpg');
 
@@ -130,8 +130,8 @@ const UserScreen = ({navigation}: UserProps) => {
                 <Text>Profile Screen</Text>
 
                 <Button
-                    onPress={() => navigation.navigate('Home')}
-                    title="Jump to Home"
+                    onPress={() => navigation.navigate('Auth', {screen: 'Login'})}
+                    title="Jump to Auth"
                     color="#841584"
                 />
             </View>
@@ -149,6 +149,7 @@ export default function App() {
                     <Stack.Screen name="Home" component={HomeScreen}/>
                     <Stack.Screen name="Profile" component={ProfileScreen}/>
                     <Stack.Screen name="User" component={UserScreen}/>
+                    <Stack.Screen name="Auth" component={RootAuth}/>
                 </Stack.Navigator>
             </NavigationContainer>
         </SafeAreaProvider>
