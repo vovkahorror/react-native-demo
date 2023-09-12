@@ -13,6 +13,7 @@ export type RootStackParamList = {
 export type RootAuthParamList = {
     Login: undefined;
     Registration: {id: number, name: string};
+    Forgot: undefined;
 };
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;

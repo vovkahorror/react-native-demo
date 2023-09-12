@@ -147,7 +147,7 @@ export default function App() {
             <NavigationContainer>
                 <Stack.Navigator>
                     <Stack.Screen name="Home" component={HomeScreen}/>
-                    <Stack.Screen name="Profile" component={ProfileScreen}/>
+                    <Stack.Screen name="Profile" component={ProfileScreen} initialParams={{myName: 'Nastya', myAge: 30}}/>
                     <Stack.Screen name="User" component={UserScreen}/>
                     <Stack.Screen name="Auth" component={RootAuth}/>
                 </Stack.Navigator>
