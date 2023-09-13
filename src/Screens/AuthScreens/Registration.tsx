@@ -13,8 +13,8 @@ export const Registration = ({route, navigation}: RootAuthScreenProps<'Registrat
             <Text>Name: {name}</Text>
 
             <Button
-                onPress={() => navigation.navigate('User')}
-                title="Jump to User"
+                onPress={() => navigation.navigate('Auth', {screen: 'Forgot'})}
+                title="Jump to Forgot"
                 color="#841584"
             />
         </View>
