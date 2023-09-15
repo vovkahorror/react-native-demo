@@ -97,6 +97,18 @@ const HomeScreen = ({navigation}: HomeProps) => {
                         title="Jump to Profile"
                         color="#841584"
                     />
+                    <Button
+                        onPress={() => navigation.navigate('Auth',
+                            {
+                                screen: 'Registration',
+                                params: {
+                                    id: 2,
+                                    name: 'Petya'
+                                }
+                            })}
+                        title="Jump to Registration"
+                        color="#841584"
+                    />
                 </View>
             </WithSafeAreaView>
         </ImageBackground>
