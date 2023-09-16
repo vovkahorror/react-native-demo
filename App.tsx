@@ -13,14 +13,14 @@ import {
 } from 'react-native';
 import React, {ReactNode, useEffect, useRef, useState} from 'react';
 import {Checkbox} from 'expo-checkbox';
-import {Input} from './src/Input/Input';
+import {Input} from './src/input/Input';
 import {globalStyles} from './global-styles';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {WithSafeAreaView} from './src/ComponentsHelpers/WithSafeAreaView';
-import {HomeProps, ProfileProps, RootStackParamList, UserProps} from './src/Types/NavigationTypes';
+import {WithSafeAreaView} from './src/componentsHelpers/WithSafeAreaView';
+import {HomeProps, ProfileProps, RootStackParamList, UserProps} from './src/types/NavigationTypes';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {RootAuth} from './src/Screens/AuthScreens/RootAuth';
+import {RootAuth} from './src/screens/authScreens/RootAuth';
 
 // const Stack = createNativeStackNavigator<RootStackParamList>();
 const Stack = createBottomTabNavigator<RootStackParamList>();
@@ -142,7 +142,7 @@ const UserScreen = ({navigation}: UserProps) => {
                 <Text>Profile Screen</Text>
 
                 <Button
-                    onPress={() => navigation.navigate('Auth', {screen: 'Login'})}
+                    onPress={() => navigation.navigate('Auth', {screen: 'Login', params: {screen: 'User'}})}
                     title="Jump to Auth"
                     color="#841584"
                 />

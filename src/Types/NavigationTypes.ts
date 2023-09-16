@@ -11,10 +11,16 @@ export type RootStackParamList = {
 };
 
 export type RootAuthParamList = {
-    Login: undefined;
+    Login: NavigatorScreenParams<NestedLoginRole>;
     Registration: {id: number, name: string};
     Forgot: undefined;
 };
+
+export type NestedLoginRole = {
+    Admin: undefined;
+    Moderator: undefined;
+    User: undefined;
+}
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Profile'>;
