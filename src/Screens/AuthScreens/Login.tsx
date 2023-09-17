@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Text, View} from 'react-native';
 import {globalStyles} from '../../../global-styles';
-import {NestedLoginRole, RootAuthScreenProps} from '../../Types/NavigationTypes';
+import {NestedLoginRole, RootAuthScreenProps} from '../../types/NavigationTypes';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator<NestedLoginRole>();
