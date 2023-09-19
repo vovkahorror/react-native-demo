@@ -152,8 +152,6 @@ const UserScreen = ({navigation}: UserProps) => {
 };
 
 export default function App() {
-
-
     return (
         <SafeAreaProvider>
             <NavigationContainer>
